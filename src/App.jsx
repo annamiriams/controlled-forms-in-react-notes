@@ -45,40 +45,62 @@ const App = () => {
     const [title, setTitle] = useState('The full name will appear here.');
     
     // REQ 1: STATE
+    // commenting out next two lines to refactor below
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    // refactoring to a single state object with two keys:
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+    });
 
     // REQ 3: HANDLER FUNCTION
     // goal of handler function: update the firstName variable with the event.target.value (this, paired with the onChange inside the return, allows us to actually type into the form fields and see the text appear in that field)
-    const handleFirstNameChange = (event) => {
-        setFirstName(event.target.value);
-    }; 
-    const handleLastNameChange = (event) => {
-        setLastName(event.target.value);
+    // refactoring the two separate event handlers
+    // const handleFirstNameChange = (event) => {
+    //     setFirstName(event.target.value);
+    // }; 
+    // const handleLastNameChange = (event) => {
+    //     setLastName(event.target.value);
+    // };
+
+    // refactored event handler
+    // ...formData at this point is the original object before we make this event change (in other words, it's the first and last names of the previous iteration of the state update). this allows us to keep lastName state if we update firstName (and vice versa).
+    // event.target.name takes the value of the name prop in our input form by accessing the key dynamically through square bracket notation
+    const handleChange = (event) => {
+        // console.log('setting formData to: ', { ...formData, [event.target.name]: event.target.value });
+        // When a user changes the data in this input, the [event.target.name]: event.target.value code is executed. The value of the <input> element’s name prop (firstName) is set as a key on the new formData state and has a value matching the new value.
+        setFormData({ ...formData, [event.target.name]: event.target.value });
     };
-    
+
     return (
         <>
             <h2>{title}</h2>
             <form>
                 <label htmlFor="firstName">First Name: </label>
                 <input 
+                    // The value of the name prop aligns with the firstName property in the formData state. The formData.firstName state is used as the value of the input
                     id="firstName" 
                     name="firstName" 
                     // REQ 2: VALUE
-                    value={firstName} 
+                    // value={firstName}
+                    value={formData.firstName} 
                     // REQ 3 cont: HANDLER FUNCTION
-                    onChange={handleFirstNameChange}
+                    // onChange={handleFirstNameChange}
+                    onChange={handleChange}
                 />
 
                 <label htmlFor="lastName">Last Name: </label>
                 <input
+                    // The value of the name prop aligns with the firstName property in the formData state. The formData.firstName state is used as the value of the input
                     id="lastName"
                     name="lastName"
                     // REQ 2: VALUE
-                    value={lastName}
+                    // value={lastName}
+                    value={formData.lastName}
                     // REQ 3 cont: HANDLER FUNCTION
-                    onChange={handleLastNameChange}
+                    // onChange={handleLastNameChange}
+                    onChange={handleChange}
                 />
             </form>
         </>
