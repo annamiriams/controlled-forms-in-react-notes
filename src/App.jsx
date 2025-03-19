@@ -73,10 +73,19 @@ const App = () => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // console.log('We no longer navigate away from this page');
+        setTitle(`Your name is ${formData.firstName} ${formData.lastName}`);
+        // clear the input fields upon clicking submit
+        setFormData({firstName: '', lastName: ''});
+    };
+
     return (
         <>
             <h2>{title}</h2>
-            <form>
+            {/* attach handleSubmit to the form, not to the button itself */}
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="firstName">First Name: </label>
                 <input 
                     // The value of the name prop aligns with the firstName property in the formData state. The formData.firstName state is used as the value of the input
@@ -102,6 +111,9 @@ const App = () => {
                     // onChange={handleLastNameChange}
                     onChange={handleChange}
                 />
+
+                {/* by default, a submit button causes the page to refresh */}
+                <button type='submit'>Submit your name</button>
             </form>
         </>
     );
