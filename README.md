@@ -10,4 +10,5 @@ In this module, we’ll learn how to create and control forms in React using com
 * Managing Controlled Forms
 * Form State as a Single Object
 * Handling Form Submission
+
 * **Level up:** Form Validations (front-end validation only)
